@@ -1,6 +1,6 @@
-var express = require('express');
-var path = require('path');
-var open = require('open');
+import express from 'express';
+import { join } from 'path';
+import open from 'open';
 // import webpack from 'webpack';
 // import config from '../webpack.config.dev';
 
@@ -16,7 +16,7 @@ const app = express();
 // }));
 
 app.get ('/', function (req, res){
-    res.sendFile(path.join(__dirname, '../src/indexcopy.html'));
+    res.sendFile(join(__dirname, '../src/indexcopy.html'));
 });
 
 // app.get('/users', function (req, res){
