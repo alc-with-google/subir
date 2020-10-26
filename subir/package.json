@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "server": "node buildScripts/srcServer.js",
+    "prestart": "node buildScripts/startMessage.js",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
