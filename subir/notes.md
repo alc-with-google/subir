@@ -11,3 +11,5 @@ the proxy.config.json file
 How build really really work
 What's up with body-parser?
 ng serve command
+
+Useful links: https://github.com/DjihadBengati/node-express-angular/tree/NODEJS_EXPRESS_ANGULAR_MANGODB
