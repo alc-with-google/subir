@@ -1,36 +1,41 @@
-import express from 'express';
-import { join } from 'path';
-import open from 'open';
-// import webpack from 'webpack';
-// import config from '../webpack.config.dev';
+import express from 'express'; // Use Express
+import bodyParser from "body-parser"; // Use body-parser
+import chalk from 'chalk';
 
-/*eslint-disable no-console */
+const port = 8080;
 
-const port = 3000;
+// Create new instance of the express server
 const app = express();
-// const compiler = webpack(config);
 
-// app.use(require('webpack-dev-middleware')(compiler, {
-//     noInfo: true,
-//     publicPath: config.output.publicPath
-// }));
+// Define the JSON parser as a default way
+// to consume and produce data through the
+// exposed APIs
+app.use(bodyParser.json());
 
-app.get ('/', function (req, res){
-    res.sendFile(join(__dirname, '../src/indexcopy.html'));
+// Create link to Angular build directory
+// The `ng build` command will save the result
+// under the `dist` folder.
+// TODO: How does this dist folder work?
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
+
+// Init the server
+const server = app.listen(process.env.PORT || port, function(err){
+  if (err){
+      console.log(chalk.red(err));
+  } else {
+      var port = server.address().port;
+      console.log(chalk.green("App now running on port", port));
+  }
 });
 
-// app.get('/users', function (req, res){
-//     res.json([
-//     {"id": 1, "firstName": "Matthew", "lastName":"oye", "email": "ml@gmail.com"},
-//     {"id": 2, "firstName": "Cornel", "lastName":"okon", "email": "co@gmail.com"},
-//     {"id": 3, "firstName": "Osita", "lastName":"Irene", "email": "oi@gmail.com"}
-//     ]);
-// });
-
-app.listen(port, function(err){
-    if (err){
-        console.log(err);
-    } else {
-        open('http://localhost:' + port)
-    }
+/*  "/api/status"
+    GET: Get server status
+ */
+app.get("/api/status", function (req, res) {
+  res.status(200).json({ status: "UP" });
 });
+
+
+
