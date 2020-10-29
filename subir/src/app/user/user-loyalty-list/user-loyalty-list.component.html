@@ -1,0 +1,12 @@
+<p>user-loyalty-list works! Coming from the loyalty list component, embbeded in user component</p>
+<!-- <a [routerLink]="['/loyalties', loyalty.id]"></a> -->
+<div>
+  <p>Loyalties are:</p>
+  <ul>
+    <li *ngFor="let loyalty of loyalties" (click)="onSelect(loyalty)" [class.selected]="loyalty === selectedLoyalty">
+      id: {{loyalty.id}}, product: {{loyalty.product}}, price: {{loyalty.price}}, percentage: {{loyalty.loyaltypercent}}
+    </li>
+  </ul>
+</div>
+
+<app-user-loyalty-details [loyalty]="selectedLoyalty"></app-user-loyalty-details>

@@ -1,2 +1,16 @@
 <h2>Users</h2>
 <p>Users' Dashboard</p>
+<p>User: {{user.firstname | uppercase}} can be seen</p>
+<p>Here's his details</p>
+<div><span>id: </span>{{user.id}}</div>
+<div><span>email: </span>{{user.email}}</div>
+<div><span>tel: </span>{{user.phone}}</div>
+
+<!-- A section for users to edit their details  -->
+<div>
+  <label>name:
+    <input [(ngModel)]="user.firstname" placeholder="firstname"/>
+  </label>
+</div>
+
+<app-user-loyalty-list></app-user-loyalty-list>

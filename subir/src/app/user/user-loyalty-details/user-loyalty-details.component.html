@@ -1,0 +1,12 @@
+<p>user-loyalty-details works! Expecting Details when a loyalty is clicked</p>
+<div *ngIf="loyalty">
+
+  <h2>Details of {{loyalty.product | uppercase}}</h2>
+  <div><span>id: </span>{{loyalty.id}}</div>
+  <div>#
+    <label>name:
+      <input [(ngModel)]="loyalty.product" placeholder="Product name"/>
+    </label>
+  </div>
+
+</div>

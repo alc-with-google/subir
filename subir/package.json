@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "server": "babel-node buildScripts/srcServer.js",
-    "start": "babel-node buildScripts/srcServer.js",
+    "start": "babel-node buildScripts/srcServer.js --open",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
