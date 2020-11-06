@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { QrscanService } from '../../shared/qrscan.service'
 
 import { LoyaltyI } from '../loyalty-i';
-import { LOYALTIES } from '../mock-loyalties'
 
 @Component({
   selector: 'app-user-loyalty-list',
@@ -14,7 +11,7 @@ import { LOYALTIES } from '../mock-loyalties'
 })
 export class UserLoyaltyListComponent implements OnInit {
 
-  loyalties;
+  loyalties: LoyaltyI[];
   selectedLoyalty: LoyaltyI;
 
   constructor(

@@ -3,8 +3,11 @@
 <div>
   <p>Loyalties are:</p>
   <ul>
+
     <li *ngFor="let loyalty of loyalties" (click)="onSelect(loyalty)" [class.selected]="loyalty === selectedLoyalty">
+      <a [routerLink]="['/loyalties', loyalty.id]">
       id: {{loyalty.id}}, product: {{loyalty.product}}, price: {{loyalty.price}}, percentage: {{loyalty.loyaltypercent}}
+    </a>
     </li>
   </ul>
 </div>
