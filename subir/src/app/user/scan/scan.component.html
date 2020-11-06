@@ -1,0 +1,26 @@
+<!-- <body>
+  <p>Got to scanning component</p>
+
+  <div id="container">
+      <h1><span>getUserMedia</span></h1>
+
+      <video id="gum-local" autoplay playsinline></video>
+      <button id="showVideo" appScan onclick="scanQR()">Open camera</button>
+
+      <div id="errorMsg"></div>
+
+  </div>
+  </body> -->
+  <body>
+    <h1>jsQR Demo</h1>
+    <a id="githubLink" href="https://github.com/cozmo/jsQR">View documentation on Github</a>
+    <p>Pure JavaScript QR code decoding library.</p>
+    <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+    <canvas id="canvas" hidden=""></canvas>
+    <div id="output" hidden="">
+      <div id="outputMessage">No QR code detected.</div>
+      <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
+    </div>
+
+    <button (click)='scanQR()' >Scan Now</button>
+  </body>
