@@ -1,25 +1,21 @@
-import { Injectable, Input } from '@angular/core';
-import jsQR from "jsqr";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoyaltyI } from '../user/loyalty-i';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class QrscanService {
 
-  constructor() { }
+  private loyaltiesUrl = 'api/loyalties';  // URL to web api
 
-  async init (constraints: any){
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        console.log('getUserMedia() got stream:', stream);
-        // const code = jsQR (imageData, width, height, options?);
-        // handleSuccess(stream);
-      } catch (e) {
-        console.error('navigator.getUserMedia error:', e);
-        // errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
-      }
+  constructor(private http: HttpClient) { }
+
+  /** GET heroes from the server */
+  getLoyalties(): Observable<LoyaltyI[]>{
+    return this.http.get<LoyaltyI[]>(this.loyaltiesUrl)
   }
-
-
 
 }
