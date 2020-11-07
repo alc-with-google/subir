@@ -1,5 +1,8 @@
-import { Component, OnInit, Renderer2, ElementRef} from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { QrscanService } from '../../shared/qrscan.service'
 import jsQR from "jsqr";
+import { LoyaltyI } from '../loyalty-i';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-scan',
@@ -8,18 +11,28 @@ import jsQR from "jsqr";
 })
 export class ScanComponent implements OnInit {
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {
+
+  newLoyalty: any;
+
+  constructor(
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private scanService: QrscanService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
   }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
-}
+  }
 
 
   scanQR(): void {
 
+    const testResult = { id: 19, product: 'Test', price: 1500, loyaltypercent: .1, seller: 'Lagos' };
     const video = this.renderer.createElement('video') as HTMLVideoElement;
     const canvasElement = this.el.nativeElement.querySelector('canvas');
     const canvas = canvasElement.getContext("2d");
@@ -27,6 +40,7 @@ export class ScanComponent implements OnInit {
     const outputContainer = this.el.nativeElement.querySelector('#output');
     const outputMessage = this.el.nativeElement.querySelector('#outputMessage');
     const outputData = this.el.nativeElement.querySelector('#outputData');
+    const scannedLoyalty = this.el.nativeElement.querySelector('#scannedResult');
 
     function drawLine(begin, end, color) {
       canvas.beginPath();
@@ -37,7 +51,7 @@ export class ScanComponent implements OnInit {
       canvas.stroke();
     }
 
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
 
       video.srcObject = stream;
       // video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
@@ -46,7 +60,7 @@ export class ScanComponent implements OnInit {
     });
 
 
-    function tick() {
+    const tick = () => {
       loadingMessage.innerText = "⌛ Loading video..."
       if (video.readyState === video.HAVE_ENOUGH_DATA) {
         loadingMessage.hidden = true;
@@ -67,8 +81,11 @@ export class ScanComponent implements OnInit {
           drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
           outputMessage.hidden = true;
           outputData.parentElement.hidden = false;
-          outputData.innerText = code.data;
-          video.pause()
+          outputData.innerText = code.data
+          scannedLoyalty.hidden = false
+          this.newLoyalty = testResult;
+          // this.scanService.addLoyalty(testResult)
+          return
         } else {
           outputMessage.hidden = false;
           outputData.parentElement.hidden = true;
@@ -76,5 +93,26 @@ export class ScanComponent implements OnInit {
       }
       requestAnimationFrame(tick);
     }
+  }
+
+  save(): void {
+    const outputData = this.el.nativeElement.querySelector('#outputData');
+    console.log('Trying to save', this.newLoyalty)
+    this.scanService.addLoyalty(this.newLoyalty as LoyaltyI)
+      .subscribe(
+        (data) => {
+          this.newLoyalty.id = data.id;
+          this.router.navigate(['/loyalties/:id', { id: this.newLoyalty.id }]);
+        })
+  }
+
+  gotoLoyalties() {
+    const loyaltyId = this.newLoyalty ? this.newLoyalty.id : null;
+    console.log('gotoLoyalties', loyaltyId)
+    // Pass along the crisis id if available
+    // so that the CrisisListComponent can select that crisis.
+    // Add a totally useless `foo` parameter for kicks.
+    // Relative navigation back to the crises
+    this.router.navigate(['/loyalties/:id', { id: loyaltyId }]);
   }
 }

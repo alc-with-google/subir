@@ -11,15 +11,16 @@ import { catchError, tap } from 'rxjs/operators';
 export class QrscanService {
 
   private loyaltiesUrl = 'api/loyalties';  // URL to web api
+  // loyalty: LoyaltyI;
 
   constructor(private http: HttpClient) { }
 
-  /** GET heroes from the server */
-  getLoyalties(): Observable<LoyaltyI[]>{
+  /** GET loyalties from the server */
+  getLoyalties(): Observable<LoyaltyI[]> {
     return this.http.get<LoyaltyI[]>(this.loyaltiesUrl)
   }
 
-  /** GET hero by id. Will 404 if id not found */
+  /** GET loyalty by id. Will 404 if id not found */
   getloyalty(id: number): Observable<LoyaltyI> {
     const url = `${this.loyaltiesUrl}/${id}`;
     return this.http.get<LoyaltyI>(url).pipe(
@@ -27,6 +28,19 @@ export class QrscanService {
       catchError(this.handleError<LoyaltyI>(`getLoyalty id=${id}`))
     );
   }
+
+  /** POST: add a new loyalty to the server */
+  addLoyalty(loyalty: LoyaltyI): Observable<LoyaltyI> {
+    // const l = {loyalty};
+    return this.http.post<LoyaltyI>(this.loyaltiesUrl, loyalty, this.httpOptions).pipe(
+      tap(_ => console.log('got here')),
+      catchError(this.handleError<LoyaltyI>('addLoyalty'))
+    );
+  }
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
 
   private handleError<T>(operation = 'operation', result?: T) {
