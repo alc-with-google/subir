@@ -1,0 +1,54 @@
+<h2>Merchant</h2>
+<p>Merchant's Dashboard</p>
+<div class="rowing">
+  <div class="">
+  <div>{{diagnostic}}></div>
+  <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+    <div class="form-group">
+      <label for="price">Price:</label><br>
+      <input type="number"  #name="ngModel" class="form-control" id="price" required [(ngModel)]="product.price" name="price">
+      <div [hidden]="name.valid || name.pristine"
+      class="alert alert-danger">
+        Price is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="product">Product:</label><br>
+      <input type="text" class="form-control" id="product" required [(ngModel)]="product.product" name="product">
+    </div>
+
+    <div class="form-group">
+      <label for="seller">Seller:</label><br>
+      <input type="text" class="form-control" id="seller" required [(ngModel)]="product.seller" name="seller">
+    </div>
+
+    <input type="submit" value="Add Product">
+  </form>
+
+  <button type="submit" class="btn btn-success" [disabled]="!productForm.form.valid">Submit</button>
+
+  <button type="button" class="btn btn-default" (click)="newProduct(); productForm.reset()" >New Product</button>
+  <!-- Now clicking New Hero resets both the form and its control flags. -->
+  </div>
+
+  <div class="">
+  <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Product</div>
+      <div class="col-xs-9">{{ product.product }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Seller</div>
+      <div class="col-xs-9">{{ product.seller }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Price</div>
+      <div class="col-xs-9">{{ product.price }}</div>
+    </div>
+    <br>
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div>
+  </div>
+</div>

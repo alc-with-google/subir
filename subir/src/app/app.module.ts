@@ -7,21 +7,23 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MerchantComponent } from './merchant/merchant.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UserModule } from './user/user.module';
+import { MerchantDashboardRoutingModule } from './merchant-dashboard/merchant-dashboard-routing.module'
+
+import { AppComponent } from './app.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MerchantDashboardModule } from './merchant-dashboard/merchant-dashboard.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MerchantComponent,
     PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     UserModule,
+    MerchantDashboardRoutingModule,
     AppRoutingModule,
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
@@ -29,7 +31,9 @@ import { UserModule } from './user/user.module';
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
+    ),
+
+    MerchantDashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
