@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
+import { ProductI } from './merchant-dashboard/product-i';
 import { LoyaltyI } from './user/loyalty-i'
 
 @Injectable({
@@ -14,7 +15,11 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 14, product: 'Shoe', price: 12000, loyaltypercent: .3,seller: 'Aba' },
       { id: 15, product: 'Bag', price: 1500, loyaltypercent: .1,seller: 'Lagos' }
     ];
-    return {loyalties};
+
+    const product: ProductI[] = [
+
+    ]
+    return {loyalties, product};
   }
 
   // Overrides the genId method to ensure that a hero always has an id.

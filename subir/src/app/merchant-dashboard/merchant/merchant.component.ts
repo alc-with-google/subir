@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Products } from '../products';
 import QRCode from 'qrcode';
+import { ProductI } from '../product-i';
+import { QrscanService } from '../../shared/qrscan.service';
+
 
 @Component({
   selector: 'app-merchant',
@@ -9,11 +12,11 @@ import QRCode from 'qrcode';
 })
 export class MerchantComponent implements OnInit {
 
-  product = new Products(11, 'N LG TV', 85000, .3, 'New-SPAR')
+  product: ProductI = new Products(11, 'N LG TV', 85000, .3, 'New-SPAR')
 
   submitted = false;
 
-  constructor() { }
+  constructor(private qrScan: QrscanService) { }
 
   ngOnInit(): void {
   }
@@ -26,10 +29,16 @@ export class MerchantComponent implements OnInit {
 
   createQR() {
     const newProductInJSON = JSON.stringify(this.product)
+    // TODO use the correct syntax toselect the element
     QRCode.toCanvas(document.getElementById('canvas'), newProductInJSON, function (error) {
       if (error) console.error(error)
       console.log('success!');
     })
+  }
+
+  addQR(product): void {
+    this.qrScan.addProduct(product);
+    console.log('product have benn added')
   }
 
   // TODO: Remove this when we're done

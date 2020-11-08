@@ -1,3 +1,5 @@
+import { ProductI } from './product-i'
+
 export class Products {
 
   constructor(

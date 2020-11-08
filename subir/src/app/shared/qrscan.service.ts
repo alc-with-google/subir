@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoyaltyI } from '../user/loyalty-i';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { ProductI } from '../merchant-dashboard/product-i';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { catchError, tap } from 'rxjs/operators';
 export class QrscanService {
 
   private loyaltiesUrl = 'api/loyalties';  // URL to web api
-  // loyalty: LoyaltyI;
+  private productUrl = 'api/products';  // URL to web api
 
   constructor(private http: HttpClient) { }
 
@@ -34,6 +35,13 @@ export class QrscanService {
     // const l = {loyalty};
     return this.http.post<LoyaltyI>(this.loyaltiesUrl, loyalty, this.httpOptions).pipe(
       tap(_ => console.log('got here')),
+      catchError(this.handleError<LoyaltyI>('addLoyalty'))
+    );
+  }
+
+  addProduct(product: ProductI): Observable<ProductI> {
+    return this.http.post<ProductI>(this.productUrl, product, this.httpOptions).pipe(
+      tap(_ => console.log('got here',product)),
       catchError(this.handleError<LoyaltyI>('addLoyalty'))
     );
   }
