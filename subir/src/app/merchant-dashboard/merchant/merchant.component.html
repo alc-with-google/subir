@@ -23,7 +23,7 @@
       <input type="text" class="form-control" id="seller" required [(ngModel)]="product.seller" name="seller">
     </div>
 
-    <input type="submit" value="Add Product">
+    <input type="submit" (click)="createQR()" value="Add Product">
   </form>
 
   <button type="submit" class="btn btn-success" [disabled]="!productForm.form.valid">Submit</button>
@@ -34,6 +34,7 @@
 
   <div class="">
   <div [hidden]="!submitted">
+    <canvas id="canvas"></canvas>
     <h2>You submitted the following:</h2>
     <div class="row">
       <div class="col-xs-3">Product</div>

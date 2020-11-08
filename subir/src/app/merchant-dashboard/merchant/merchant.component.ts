@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Products } from '../products'
+import { Products } from '../products';
+import QRCode from 'qrcode';
 
 @Component({
   selector: 'app-merchant',
@@ -21,6 +22,14 @@ export class MerchantComponent implements OnInit {
 
   newProduct() {
     this.product = new Products(42, '', 5900,.3,'');
+  }
+
+  createQR() {
+    const newProductInJSON = JSON.stringify(this.product)
+    QRCode.toCanvas(document.getElementById('canvas'), newProductInJSON, function (error) {
+      if (error) console.error(error)
+      console.log('success!');
+    })
   }
 
   // TODO: Remove this when we're done
