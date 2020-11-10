@@ -1,0 +1,15 @@
+<app-merchant (createdProduct)="onCreatedProduct($event)"></app-merchant>
+
+<p>product-list works!</p>
+<div>
+  <p>Products are:</p>
+  <ul>
+    <li *ngFor="let product of products">
+      <a [routerLink]="['/loyalties', product.id]">
+        Seller: {{product.seller}}, id: {{product.id}}, product: {{product.product}}, price: {{product.price}}, percentage: {{product.loyaltypercent}}
+    </a>
+    </li>
+  </ul>
+</div>
+
+

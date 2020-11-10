@@ -3,11 +3,12 @@ import { ProductI } from './product-i'
 export class Products {
 
   constructor(
-    public id: number,
+
     public product: string,
     public price: number,
     public loyaltypercent: number,
-    public seller?: string
+    public seller?: string,
+    public id?: number
   ) {  }
 }
 

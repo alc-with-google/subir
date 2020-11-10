@@ -21,6 +21,11 @@ export class QrscanService {
     return this.http.get<LoyaltyI[]>(this.loyaltiesUrl)
   }
 
+    /** GET products from the server */
+    getProducts(): Observable<ProductI[]> {
+      return this.http.get<ProductI[]>(this.productUrl)
+    }
+
   /** GET loyalty by id. Will 404 if id not found */
   getloyalty(id: number): Observable<LoyaltyI> {
     const url = `${this.loyaltiesUrl}/${id}`;
@@ -41,8 +46,8 @@ export class QrscanService {
 
   addProduct(product: ProductI): Observable<ProductI> {
     return this.http.post<ProductI>(this.productUrl, product, this.httpOptions).pipe(
-      tap(_ => console.log('got here',product)),
-      catchError(this.handleError<LoyaltyI>('addLoyalty'))
+      tap(_ => console.log('got here in qr service, added product:',product)),
+      catchError(this.handleError<ProductI>('addProduct'))
     );
   }
 

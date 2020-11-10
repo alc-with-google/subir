@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Products } from '../products';
 import QRCode from 'qrcode';
 import { ProductI } from '../product-i';
 import { QrscanService } from '../../shared/qrscan.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -12,7 +13,11 @@ import { QrscanService } from '../../shared/qrscan.service';
 })
 export class MerchantComponent implements OnInit {
 
-  product: ProductI = new Products(11, 'N LG TV', 85000, .3, 'New-SPAR')
+  product: ProductI;
+  products: ProductI[];
+
+  @Output() createdProduct: EventEmitter<any> = new EventEmitter<ProductI>();
+
 
   submitted = false;
 
@@ -21,27 +26,39 @@ export class MerchantComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit() { this.submitted = true; }
-
-  newProduct() {
-    this.product = new Products(42, '', 5900,.3,'');
+  onSubmit(form: NgForm) {
+    console.log(form.value);
+    console.log(form.touched);
+    console.log(form.submitted);
+    this.createQR(form)
+    this.addQR(form.value)
+    this.submitted = true;
   }
 
-  createQR() {
-    const newProductInJSON = JSON.stringify(this.product)
+  createQR(form: NgForm) {
+    const newProductInJSON = JSON.stringify(form.value)
     // TODO use the correct syntax toselect the element
     QRCode.toCanvas(document.getElementById('canvas'), newProductInJSON, function (error) {
       if (error) console.error(error)
-      console.log('success!');
+      console.log('QR code canvas is success!');
     })
+    // this.resetForm(this.form)
   }
 
-  addQR(product): void {
-    this.qrScan.addProduct(product);
-    console.log('product have benn added')
+  resetForm(form:  NgForm)  {
+    form.resetForm();
+}
+
+  addQR(product: ProductI): void {
+    this.qrScan.addProduct(product)
+      .subscribe((data)=> {
+        this.product = data
+        this.createdProduct.emit(data);
+        console.log("got here in merchant compoemt,data:",data)
+      });
   }
 
   // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.product); }
+  // get diagnostic() { return JSON.stringify(this.product); }
 
 }

@@ -16,10 +16,12 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 15, product: 'Bag', price: 1500, loyaltypercent: .1,seller: 'Lagos' }
     ];
 
-    const product: ProductI[] = [
+    const products: ProductI[] = [
+      {price: 1000, product: "Bike", seller: "Jumbo", loyaltypercent: 10, id: 11},
+      {price: 2000, product: "Rug", seller: "BT", loyaltypercent: 20, id: 12},
 
     ]
-    return {loyalties, product};
+    return {loyalties, products};
   }
 
   // Overrides the genId method to ensure that a hero always has an id.

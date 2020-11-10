@@ -1,0 +1,6 @@
+@import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+.rowing {
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-gap: 20px;
+}
