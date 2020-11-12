@@ -1,8 +1,9 @@
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Component, EventEmitter, OnInit, Renderer2, ElementRef, Output } from '@angular/core';
 import { QrscanService } from '../../shared/qrscan.service'
 import jsQR from "jsqr";
 import { LoyaltyI } from '../loyalty-i';
 import { ActivatedRoute, Router } from '@angular/router';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-scan',
@@ -13,6 +14,9 @@ export class ScanComponent implements OnInit {
 
 
   newLoyalty: any;
+  @Output() scannedLoyalty: EventEmitter<any> = new EventEmitter<LoyaltyI>();
+  // testResult = { id: 19, product: 'Test', price: 1500, loyaltypercent: .1, seller: 'Lagos' };
+  id:number;
 
   constructor(
     private renderer: Renderer2,
@@ -32,7 +36,7 @@ export class ScanComponent implements OnInit {
 
   scanQR(): void {
 
-    const testResult = { id: 19, product: 'Test', price: 1500, loyaltypercent: .1, seller: 'Lagos' };
+    // const testResult = { id: 19, product: 'Test', price: 1500, loyaltypercent: .1, seller: 'Lagos' };
     const video = this.renderer.createElement('video') as HTMLVideoElement;
     const canvasElement = this.el.nativeElement.querySelector('canvas');
     const canvas = canvasElement.getContext("2d");
@@ -40,7 +44,7 @@ export class ScanComponent implements OnInit {
     const outputContainer = this.el.nativeElement.querySelector('#output');
     const outputMessage = this.el.nativeElement.querySelector('#outputMessage');
     const outputData = this.el.nativeElement.querySelector('#outputData');
-    const scannedLoyalty = this.el.nativeElement.querySelector('#scannedResult');
+    const scannedResult = this.el.nativeElement.querySelector('#scannedResult');
 
     function drawLine(begin, end, color) {
       canvas.beginPath();
@@ -82,9 +86,8 @@ export class ScanComponent implements OnInit {
           outputMessage.hidden = true;
           outputData.parentElement.hidden = false;
           outputData.innerText = code.data
-          scannedLoyalty.hidden = false
-          this.newLoyalty = testResult;
-          // this.scanService.addLoyalty(testResult)
+          scannedResult.hidden = false
+          this.newLoyalty = code.data;
           return
         } else {
           outputMessage.hidden = false;
@@ -98,12 +101,12 @@ export class ScanComponent implements OnInit {
   save(): void {
     const outputData = this.el.nativeElement.querySelector('#outputData');
     console.log('Trying to save', this.newLoyalty)
-    this.scanService.addLoyalty(this.newLoyalty as LoyaltyI)
+    this.scanService.addLoyalty(JSON.parse(this.newLoyalty))
       .subscribe(
-        (data) => {
-          this.newLoyalty.id = data.id;
-          this.router.navigate(['/loyalties/:id', { id: this.newLoyalty.id }]);
-        })
+        (data) =>{console.log("this is the returned data after scan service", data);this.scannedLoyalty.emit(data)})
+    // this.newLoyalty = JSON.parse(this.newLoyalty)
+    // this.newLoyalty.id = this.id // TODO: id notadded to emited variable
+    // this.scannedLoyalty.emit(this.newLoyalty)
   }
 
   gotoLoyalties() {

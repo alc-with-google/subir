@@ -10,7 +10,7 @@ import { ProductI } from '../product-i';
 })
 export class ProductListComponent implements OnInit{
 
-  products: ProductI[] = [];
+  products = [];
   @Input() productToDisplay = null;
 
   constructor(private qrScan:QrscanService ) {}
@@ -29,6 +29,7 @@ export class ProductListComponent implements OnInit{
   onCreatedProduct(createdProduct: any) {
     this.productToDisplay = createdProduct;
     this.products.push(this.productToDisplay);
+    console.log('so here in onCreatedProduct', this.products)
   }
 
 }

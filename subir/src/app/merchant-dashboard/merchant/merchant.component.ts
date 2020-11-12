@@ -27,7 +27,7 @@ export class MerchantComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
+    console.log(JSON.stringify(form.value));
     console.log(form.touched);
     console.log(form.submitted);
     this.createQR(form)
@@ -49,11 +49,12 @@ export class MerchantComponent implements OnInit {
     form.resetForm();
 }
 
-  addQR(product: ProductI): void {
+  addQR(product: any): void {
     this.qrScan.addProduct(product)
       .subscribe((data)=> {
-        this.product = data
-        this.createdProduct.emit(data);
+        this.product = data;
+        this.product.id = data.id;
+        this.createdProduct.emit(this.product);
         console.log("got here in merchant compoemt,data:",data)
       });
   }

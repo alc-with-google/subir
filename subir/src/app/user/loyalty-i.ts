@@ -1,5 +1,5 @@
 export interface LoyaltyI {
-  id: number,
+  id?: number,
   product: string,
   price: number,
   loyaltypercent: number,

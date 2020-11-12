@@ -5,7 +5,7 @@
   <p>Products are:</p>
   <ul>
     <li *ngFor="let product of products">
-      <a [routerLink]="['/loyalties', product.id]">
+      <a [routerLink]="['/product', product.id]">
         Seller: {{product.seller}}, id: {{product.id}}, product: {{product.product}}, price: {{product.price}}, percentage: {{product.loyaltypercent}}
     </a>
     </li>

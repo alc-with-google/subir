@@ -19,8 +19,6 @@ export class UserComponent implements OnInit {
 
   }
 
-  LOYALTIES = LOYALTIES;
-
   constructor() { }
 
   ngOnInit(): void {

@@ -11,8 +11,9 @@ import { LoyaltyI } from '../loyalty-i';
 })
 export class UserLoyaltyListComponent implements OnInit {
 
-  loyalties: LoyaltyI[];
+  loyalties: LoyaltyI[] = [];
   selectedLoyalty: LoyaltyI;
+  @Input() newScannedProductToDisplay: LoyaltyI;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +31,12 @@ export class UserLoyaltyListComponent implements OnInit {
 
   onSelect(loyalty: LoyaltyI): void {
     this.selectedLoyalty = loyalty;
+  }
+
+  OnscannedLoyalty (scannedLoyalty: LoyaltyI){
+    this.newScannedProductToDisplay = scannedLoyalty;
+    this.loyalties.push(this.newScannedProductToDisplay)
+    console.log('added to list')
   }
 
 }

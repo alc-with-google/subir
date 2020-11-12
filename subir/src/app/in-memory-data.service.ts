@@ -29,7 +29,7 @@ export class InMemoryDataService implements InMemoryDbService {
   // the method below returns the initial number (11).
   // if the heroes array is not empty, the method below returns the highest
   // hero id + 1.
-  genId(loyalties: LoyaltyI[]): number {
-    return loyalties.length > 0 ? Math.max(...loyalties.map(hero => hero.id)) + 1 : 11;
+  genId(products: ProductI[]): number {
+    return products.length > 0 ? Math.max(...products.map(h => h.id)) + 1 : 12;
   }
 }
